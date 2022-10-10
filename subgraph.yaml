@@ -1,0 +1,57 @@
+specVersion: 0.0.4
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: ArtGobblers
+    network: goerli
+    source:
+      address: "0x861b948C1C0136dB1D1e7904313888Ad3Fe01901"
+      abi: ArtGobblers
+      startBlock: 7739802
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - ArtGobbled
+        - GobblerClaimed
+        - GobblerPurchased
+        - GobblersRevealed
+        - GooBalanceUpdated
+        - LegendaryGobblerMinted
+        - OwnerUpdated
+        - RandProviderUpgraded
+        - RandomnessFulfilled
+        - RandomnessRequested
+        - ReservedGobblersMinted
+        - Transfer
+      abis:
+        - name: ArtGobblers
+          file: ./abis/ArtGobblers.json
+      eventHandlers:
+        - event: ArtGobbled(indexed address,indexed uint256,indexed address,uint256)
+          handler: handleArtGobbled
+        - event: GobblerClaimed(indexed address,indexed uint256)
+          handler: handleGobblerClaimed
+        - event: GobblerPurchased(indexed address,indexed uint256,uint256)
+          handler: handleGobblerPurchased
+        - event: GobblersRevealed(indexed address,uint256,uint256)
+          handler: handleGobblersRevealed
+        - event: GooBalanceUpdated(indexed address,uint256)
+          handler: handleGooBalanceUpdated
+        - event: LegendaryGobblerMinted(indexed address,indexed uint256,uint256[])
+          handler: handleLegendaryGobblerMinted
+        - event: OwnerUpdated(indexed address,indexed address)
+          handler: handleOwnerUpdated
+        - event: RandProviderUpgraded(indexed address,indexed address)
+          handler: handleRandProviderUpgraded
+        - event: RandomnessFulfilled(uint256)
+          handler: handleRandomnessFulfilled
+        - event: RandomnessRequested(indexed address,uint256)
+          handler: handleRandomnessRequested
+        - event: ReservedGobblersMinted(indexed address,uint256,uint256)
+          handler: handleReservedGobblersMinted
+        - event: Transfer(indexed address,indexed address,indexed uint256)
+          handler: handleTransfer
+      file: ./src/art-gobblers.ts

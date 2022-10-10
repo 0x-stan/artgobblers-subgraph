@@ -1,0 +1,32 @@
+type GobblerData @entity {
+  id: ID!
+  owner: Bytes! # The current owner of the gobbler.
+  idx: BigInt! # The current owner of the gobbler.
+  emissionMultiple: BigInt! # Multiple on goo issuance.
+}
+
+type UserData @entity {
+  id: ID!
+  address: Bytes!
+  gobblersOwned: BigInt! # The total number of gobblers currently owned by the user.
+  emissionMultiple: BigInt! # The sum of the multiples of all gobblers the user holds.
+  lastBalance: BigInt! # The sum of the multiples of all gobblers the user holds.
+  lastTimestamp: BigInt! # Timestamp of the last goo balance checkpoint.
+  gobblers: [GobblerData!]! # user's gobblers
+}
+
+type LegendaryGobblerAuctionData @entity {
+  id: ID!
+  startPrice: BigInt! # Start price of current legendary gobbler auction.
+  numSold: BigInt! # Number of legendary gobblers sold so far.
+}
+
+type GobblerRevealsData @entity {
+  id: ID!
+  randomSeed: BigInt! # Last randomness obtained from the rand provider.
+  nextRevealTimestamp: BigInt! # Next reveal cannot happen before this timestamp.
+  lastRevealedId: BigInt! # Id of latest gobbler which has been revealed so far.
+  toBeRevealed: BigInt! # Remaining gobblers to be revealed with the current seed.
+  waitingForSeed: Boolean! # Whether we are waiting to receive a seed from Chainlink.
+}
+
