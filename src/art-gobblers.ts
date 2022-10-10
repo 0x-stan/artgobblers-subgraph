@@ -36,7 +36,7 @@ export function handleGobblerClaimed(event: GobblerClaimed): void {
   let artGobblersData = loadArtGobblersData();
   artGobblersData.numMintedFromGoo = gobblersContract.try_numMintedFromGoo().value;
   artGobblersData.currentNonLegendaryId = gobblersContract.try_currentNonLegendaryId().value;
-  artGobblersData.numMintedForReserves = gobblersContract.try_numMintedForReserves().value;
+  // artGobblersData.numMintedForReserves = gobblersContract.try_numMintedForReserves().value;
   artGobblersData.save();
 
   let user = loadUserData(event.params.user);
@@ -58,7 +58,7 @@ export function handleGobblerPurchased(event: GobblerPurchased): void {
   let artGobblersData = loadArtGobblersData();
   artGobblersData.numMintedFromGoo = gobblersContract.try_numMintedFromGoo().value;
   artGobblersData.currentNonLegendaryId = gobblersContract.try_currentNonLegendaryId().value;
-  artGobblersData.numMintedForReserves = gobblersContract.try_numMintedForReserves().value;
+  // artGobblersData.numMintedForReserves = gobblersContract.try_numMintedForReserves().value;
   artGobblersData.save();
 
   let user = loadUserData(event.params.user);
@@ -157,7 +157,13 @@ export function handleRandomnessRequested(event: RandomnessRequested): void {
 
 export function handleReservedGobblersMinted(
   event: ReservedGobblersMinted
-): void {}
+): void {
+  let artGobblersData = loadArtGobblersData();
+  artGobblersData.currentNonLegendaryId = event.params.lastMintedGobblerId;
+  artGobblersData.numMintedForReserves = artGobblersData.numMintedForReserves.plus(event.params.numGobblersEach);
+  artGobblersData.numMintedForCommunity = artGobblersData.numMintedForCommunity.plus(event.params.numGobblersEach);
+  artGobblersData.save();
+}
 
 export function handleTransfer(event: Transfer): void {
   // from = AddressZero means mint

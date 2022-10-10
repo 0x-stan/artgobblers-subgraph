@@ -1,9 +1,9 @@
-export const linkTokenAddress = "0x7152Cb6451D5A98331cC390Ed1195F2be84b9084";
-export const vrfCoordinatorAddress = "0x40AB9ED7Eb53a8BE24132f7E03C6a6283c08E45A";
-export const teamAddress = "0xf40D79C5e5a76762B9743ad9A11F2ceA5D08d504";
-export const communityAddress = "0xfABd9aF8499f981a1386ae8ECecc149ed47E9A69";
-export const randProviderAddress = "0x321771ff631b08aeFaCcc1b5b24f3206F4A655D9";
-export const gooAddress = "0x13dd1c1cab9D612Ec48b81196e2513F9A2f232b4";
+export const linkTokenAddress = "0x929B33e27fE70AF9F50D82a501427531E7Ee3e3F";
+export const vrfCoordinatorAddress = "0x91E32c14A3a87fDD652c17285BBF15fDf49E0013";
+export const teamAddress = "0x72121D20C74AE984d9826e7D50C99D2fBeb413bd";
+export const communityAddress = "0x3da35713253fa77fDaBAa66A41922018c2E15F7a";
+export const randProviderAddress = "0x8391ffa7d2dB3e9841Eb745f7a56543682818928";
+export const gooAddress = "0xcb3c0f215d3bAbf3bE71E40405b9585adE0D623e";
 export const gobblersAddress = "0xa02Fa46099c5da1B0e8287CEEC6A690f102311F5";
-export const pagesAddress = "0x6aFA512C03402415805aCd3e01381b5915dBEa26";
-export const voltronAddress = "0x2e2B631E4eBb9b3FcD08e55AC0a8e1FD5eD370F7";
+export const pagesAddress = "0x48CE92937ae83Abd76fd698C948dE9eE54ee36Ff";
+export const voltronAddress = "0x4D233449BDAE3E17883E8d5e161c0f85747bF730";

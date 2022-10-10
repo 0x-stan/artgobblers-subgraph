@@ -20,6 +20,7 @@ type ArtGobblersData @entity {
   numMintedFromGoo: BigInt! # Number of gobblers minted from goo.
   currentNonLegendaryId: BigInt! # Id of the most recently minted non legendary gobbler.
   numMintedForReserves: BigInt! # The number of gobblers minted to the reserves.
+  numMintedForCommunity: BigInt! # The number of gobblers minted to the community.
   legendaryGobblerInitialStartPrice: BigInt! # Initial legendary gobbler auction price.
   firstLegendaryGobblerId: BigInt! # The last LEGENDARY_SUPPLY ids are reserved for legendary gobblers.
   legendaryAuctionInterval: BigInt! # Legendary auctions begin each time a multiple of these many gobblers have been minted from goo.

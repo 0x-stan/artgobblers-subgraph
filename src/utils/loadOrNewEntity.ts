@@ -37,6 +37,7 @@ export function loadArtGobblersData(): ArtGobblersData {
     entity.numMintedFromGoo = gobblersContract.try_numMintedFromGoo().value;
     entity.currentNonLegendaryId = gobblersContract.try_currentNonLegendaryId().value;
     entity.numMintedForReserves = gobblersContract.try_numMintedForReserves().value;
+    entity.numMintedForCommunity = gobblersContract.try_numMintedForReserves().value;
     entity.legendaryGobblerInitialStartPrice = gobblersContract.try_LEGENDARY_GOBBLER_INITIAL_START_PRICE().value;
     entity.firstLegendaryGobblerId = gobblersContract.try_FIRST_LEGENDARY_GOBBLER_ID().value;
     entity.legendaryAuctionInterval = gobblersContract.try_LEGENDARY_AUCTION_INTERVAL().value;
