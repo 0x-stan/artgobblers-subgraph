@@ -1,3 +1,30 @@
+
+type ArtGobblersData @entity {
+  id: ID!
+  owner: Bytes! # The owner of the ArtGobblers contract.
+  gobblersAddress: Bytes! # The address of the ArtGobblers contract.
+  gooAddress: Bytes! # The address of the Goo ERC20 token contract.
+  pagesAddress: Bytes! # The address of the Pages ERC20 token contract.
+  teamAddress: Bytes! # The address which receives gobblers reserved for the team.
+  communityAddress: Bytes! # The address which receives gobblers reserved for the community.
+  randProviderAddress: Bytes! # The address of a randomness provider.
+  gobblersMaxSupply: BigInt! # Maximum number of mintable gobblers.
+  mintListSupply: BigInt! # Maximum amount of gobblers mintable via mintlist.
+  legendarySupply: BigInt! # Maximum amount of mintable legendary gobblers.
+  reservedSupply: BigInt! # Maximum amount of gobblers split between the reserves.
+  maxMintable: BigInt! # Maximum amount of gobblers that can be minted via VRGDA.
+  unrevealedURI: String! # URI for gobblers that have yet to be revealed.
+  baseURI: String! # Base URI for minted gobblers.
+  merkleRoot: Bytes! # Merkle root of mint mintlist.
+  mintStart: BigInt! # Timestamp for the start of minting.
+  numMintedFromGoo: BigInt! # Number of gobblers minted from goo.
+  currentNonLegendaryId: BigInt! # Id of the most recently minted non legendary gobbler.
+  numMintedForReserves: BigInt! # The number of gobblers minted to the reserves.
+  legendaryGobblerInitialStartPrice: BigInt! # Initial legendary gobbler auction price.
+  firstLegendaryGobblerId: BigInt! # The last LEGENDARY_SUPPLY ids are reserved for legendary gobblers.
+  legendaryAuctionInterval: BigInt! # Legendary auctions begin each time a multiple of these many gobblers have been minted from goo.
+}
+
 type GobblerData @entity {
   id: ID!
   owner: Bytes! # The current owner of the gobbler.
@@ -11,7 +38,9 @@ type UserData @entity {
   gobblersOwned: BigInt! # The total number of gobblers currently owned by the user.
   emissionMultiple: BigInt! # The sum of the multiples of all gobblers the user holds.
   lastBalance: BigInt! # The sum of the multiples of all gobblers the user holds.
+  lastBalanceDecimal: String! # The sum of the multiples of all gobblers the user holds.
   lastTimestamp: BigInt! # Timestamp of the last goo balance checkpoint.
+  hasClaimedMintlistGobbler: Boolean! # whitelist gobbler claimed
   gobblers: [GobblerData!]! # user's gobblers
 }
 

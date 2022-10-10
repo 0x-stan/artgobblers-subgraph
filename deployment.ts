@@ -4,6 +4,6 @@ export const teamAddress = "0xf40D79C5e5a76762B9743ad9A11F2ceA5D08d504";
 export const communityAddress = "0xfABd9aF8499f981a1386ae8ECecc149ed47E9A69";
 export const randProviderAddress = "0x321771ff631b08aeFaCcc1b5b24f3206F4A655D9";
 export const gooAddress = "0x13dd1c1cab9D612Ec48b81196e2513F9A2f232b4";
-export const gobblersAddress = "0x861b948C1C0136dB1D1e7904313888Ad3Fe01901";
+export const gobblersAddress = "0xa02Fa46099c5da1B0e8287CEEC6A690f102311F5";
 export const pagesAddress = "0x6aFA512C03402415805aCd3e01381b5915dBEa26";
 export const voltronAddress = "0x2e2B631E4eBb9b3FcD08e55AC0a8e1FD5eD370F7";

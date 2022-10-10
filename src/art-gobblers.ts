@@ -1,4 +1,4 @@
-import { Address, BigInt, log } from "@graphprotocol/graph-ts";
+import { Address, BigDecimal, BigInt, log } from "@graphprotocol/graph-ts";
 import {
   ArtGobblers,
   Approval,
@@ -16,9 +16,15 @@ import {
   ReservedGobblersMinted,
   Transfer,
 } from "../generated/ArtGobblers/ArtGobblers";
-import { ZERO_ADDRESS, INT_ONE } from "./constants";
-import { loadGobblerData, loadUserData } from "./utils/loadOrNewEntity";
+import { ZERO_ADDRESS, INT_ONE, INT_DECIMAL, INT_ONE_DAYS } from "./constants";
+import {
+  loadArtGobblersData,
+  loadGobblerData,
+  loadGobblerRevealsData,
+  loadUserData,
+} from "./utils/loadOrNewEntity";
 import { gobblersAddress } from "../deployment";
+import { removeElementFromArray } from "./utils/utils";
 
 const gobblersContract = ArtGobblers.bind(Address.fromString(gobblersAddress));
 
@@ -26,15 +32,45 @@ export function handleApprovalForAll(event: ApprovalForAll): void {}
 
 export function handleArtGobbled(event: ArtGobbled): void {}
 
-export function handleGobblerClaimed(event: GobblerClaimed): void {}
+export function handleGobblerClaimed(event: GobblerClaimed): void {
+  let artGobblersData = loadArtGobblersData();
+  artGobblersData.numMintedFromGoo = gobblersContract.try_numMintedFromGoo().value;
+  artGobblersData.currentNonLegendaryId = gobblersContract.try_currentNonLegendaryId().value;
+  artGobblersData.numMintedForReserves = gobblersContract.try_numMintedForReserves().value;
+  artGobblersData.save();
 
-export function handleGobblerPurchased(event: GobblerPurchased): void {
   let user = loadUserData(event.params.user);
-  user.gobblersOwned = user.gobblersOwned.plus(INT_ONE);
-  user.save();
-
   let gobblerId = event.params.gobblerId;
   let gobbler = loadGobblerData(gobblerId);
+
+  user.gobblersOwned = user.gobblersOwned.plus(INT_ONE);
+  let userGobblers = user.gobblers;
+  userGobblers.push(gobbler.id);
+  user.gobblers = userGobblers;
+  user.hasClaimedMintlistGobbler = true;
+  user.save();
+
+  gobbler.owner = user.address;
+  gobbler.save();
+}
+
+export function handleGobblerPurchased(event: GobblerPurchased): void {
+  let artGobblersData = loadArtGobblersData();
+  artGobblersData.numMintedFromGoo = gobblersContract.try_numMintedFromGoo().value;
+  artGobblersData.currentNonLegendaryId = gobblersContract.try_currentNonLegendaryId().value;
+  artGobblersData.numMintedForReserves = gobblersContract.try_numMintedForReserves().value;
+  artGobblersData.save();
+
+  let user = loadUserData(event.params.user);
+  let gobblerId = event.params.gobblerId;
+  let gobbler = loadGobblerData(gobblerId);
+
+  user.gobblersOwned = user.gobblersOwned.plus(INT_ONE);
+  let userGobblers = user.gobblers;
+  userGobblers.push(gobbler.id);
+  user.gobblers = userGobblers;
+  user.save();
+
   gobbler.owner = user.address;
   gobbler.save();
 }
@@ -42,6 +78,17 @@ export function handleGobblerPurchased(event: GobblerPurchased): void {
 export function handleGobblersRevealed(event: GobblersRevealed): void {
   let num = event.params.numGobblers;
   let lastId = event.params.lastRevealedId;
+
+  let revealsData = loadGobblerRevealsData();
+  const callResult = gobblersContract.try_gobblerRevealsData();
+  if (!callResult.reverted) {
+    revealsData.randomSeed = callResult.value.getRandomSeed();
+    revealsData.nextRevealTimestamp = callResult.value.getNextRevealTimestamp();
+    revealsData.toBeRevealed = callResult.value.getToBeRevealed();
+  }
+  revealsData.lastRevealedId = lastId;
+  revealsData.save();
+
   for (let i = 0; i < num.toI32(); i++) {
     const _id = lastId.minus(BigInt.fromI32(i));
     const callResult = gobblersContract.try_getGobblerData(_id);
@@ -59,9 +106,6 @@ export function handleGobblersRevealed(event: GobblersRevealed): void {
 
       let user = loadUserData(owner);
       user.emissionMultiple = user.emissionMultiple.plus(emissionMultiple);
-      let userGobblers = user.gobblers;
-      userGobblers.push(gobbler.id);
-      user.gobblers = userGobblers;
       user.save();
     }
   }
@@ -70,6 +114,10 @@ export function handleGobblersRevealed(event: GobblersRevealed): void {
 export function handleGooBalanceUpdated(event: GooBalanceUpdated): void {
   let user = loadUserData(event.params.user);
   user.lastBalance = event.params.newGooBalance;
+  user.lastBalanceDecimal = event.params.newGooBalance
+    .toBigDecimal()
+    .div(INT_DECIMAL)
+    .toString();
   user.lastTimestamp = event.block.timestamp;
   user.save();
 }
@@ -78,13 +126,34 @@ export function handleLegendaryGobblerMinted(
   event: LegendaryGobblerMinted
 ): void {}
 
-export function handleOwnerUpdated(event: OwnerUpdated): void {}
+export function handleOwnerUpdated(event: OwnerUpdated): void {
+  let artGobblersData = loadArtGobblersData();
+  artGobblersData.owner = event.params.newOwner;
+  artGobblersData.save();
+}
 
-export function handleRandProviderUpgraded(event: RandProviderUpgraded): void {}
+export function handleRandProviderUpgraded(event: RandProviderUpgraded): void {
+  let artGobblersData = loadArtGobblersData();
+  artGobblersData.randProviderAddress = event.params.newRandProvider;
+  artGobblersData.save();
+}
 
-export function handleRandomnessFulfilled(event: RandomnessFulfilled): void {}
+export function handleRandomnessFulfilled(event: RandomnessFulfilled): void {
+  let revealsData = loadGobblerRevealsData();
+  revealsData.randomSeed = event.params.randomness;
+  revealsData.waitingForSeed = false;
+  revealsData.save();
+}
 
-export function handleRandomnessRequested(event: RandomnessRequested): void {}
+export function handleRandomnessRequested(event: RandomnessRequested): void {
+  let revealsData = loadGobblerRevealsData();
+  revealsData.toBeRevealed = event.params.toBeRevealed;
+  revealsData.nextRevealTimestamp = revealsData.nextRevealTimestamp.plus(
+    INT_ONE_DAYS
+  );
+  revealsData.waitingForSeed = true;
+  revealsData.save();
+}
 
 export function handleReservedGobblersMinted(
   event: ReservedGobblersMinted
@@ -93,7 +162,8 @@ export function handleReservedGobblersMinted(
 export function handleTransfer(event: Transfer): void {
   // from = AddressZero means mint
   // to = AddressZero means burn
-  if (event.params.from == ZERO_ADDRESS || event.params.to == ZERO_ADDRESS) return
+  if (event.params.from == ZERO_ADDRESS || event.params.to == ZERO_ADDRESS)
+    return;
 
   const _id = event.params.id;
   let gobbler = loadGobblerData(_id);
@@ -104,19 +174,7 @@ export function handleTransfer(event: Transfer): void {
   // remove gobbler of from user
   userFrom.gobblersOwned = userFrom.gobblersOwned.minus(INT_ONE);
   let userFromGobblers = userFrom.gobblers;
-  const _idString = _id.toString();
-  // userFromGobblers = userFromGobblers.filter((i) => i !== _idString);
-  let i = 0;
-  let i2 = 0;
-  for (i = 0; i < userFromGobblers.length; i++) {
-    if (userFromGobblers[i] == _idString) {
-      for (i2 = i; i2 < userFromGobblers.length - 1; i2++) {
-        userFromGobblers[i2] = userFromGobblers[i2 + 1];
-      }
-      userFromGobblers.length = userFromGobblers.length - 1;
-      break;
-    }
-  }
+  userFromGobblers = removeElementFromArray(_id.toString(), userFromGobblers);
   userFrom.gobblers = userFromGobblers;
   // update user's emissionMultiple
   let userFromDataRes = gobblersContract.try_getUserData(
@@ -131,6 +189,10 @@ export function handleTransfer(event: Transfer): void {
   );
   if (!userFromGooBalanceRes.reverted) {
     userFrom.lastBalance = userFromGooBalanceRes.value;
+    userFrom.lastBalanceDecimal = userFromGooBalanceRes.value
+      .toBigDecimal()
+      .div(INT_DECIMAL)
+      .toString();
     userFrom.lastTimestamp = event.block.timestamp;
   }
   userFrom.save();
@@ -154,6 +216,10 @@ export function handleTransfer(event: Transfer): void {
   );
   if (!userToGooBalanceRes.reverted) {
     userTo.lastBalance = userToGooBalanceRes.value;
+    userTo.lastBalanceDecimal = userToGooBalanceRes.value
+      .toBigDecimal()
+      .div(INT_DECIMAL)
+      .toString();
     userTo.lastTimestamp = event.block.timestamp;
   }
   userTo.save();
