@@ -1,9 +1,0 @@
-export const linkTokenAddress = "0x929B33e27fE70AF9F50D82a501427531E7Ee3e3F";
-export const vrfCoordinatorAddress = "0x91E32c14A3a87fDD652c17285BBF15fDf49E0013";
-export const teamAddress = "0x72121D20C74AE984d9826e7D50C99D2fBeb413bd";
-export const communityAddress = "0x3da35713253fa77fDaBAa66A41922018c2E15F7a";
-export const randProviderAddress = "0x8391ffa7d2dB3e9841Eb745f7a56543682818928";
-export const gooAddress = "0xcb3c0f215d3bAbf3bE71E40405b9585adE0D623e";
-export const gobblersAddress = "0xa02Fa46099c5da1B0e8287CEEC6A690f102311F5";
-export const pagesAddress = "0x48CE92937ae83Abd76fd698C948dE9eE54ee36Ff";
-export const voltronAddress = "0x4D233449BDAE3E17883E8d5e161c0f85747bF730";

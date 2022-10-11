@@ -1,0 +1,9 @@
+export const linkTokenAddress = "0xf7a03D7A62BFf22616e51194AaA664c87C3B68cC";
+export const vrfCoordinatorAddress = "0x71AE6384A75aFA4DAA731e089FF86B4EF9e54121";
+export const teamAddress = "0x795D6a764E7C9CF0766e7Cd313F2008ab5645fEB";
+export const communityAddress = "0x12298B5631e78864d65B12a971E2dC652b1C35b1";
+export const randProviderAddress = "0x0c31d54fC8357736920c7aead0240065694fd07C";
+export const gooAddress = "0xF8799596823920b333C869f9b16c064B782e95df";
+export const gobblersAddress = "0x6B78C09dc07c43deC95275D32e60Df2D88ab10FB";
+export const pagesAddress = "0x209889cae305577Fc7A10Ad37C931B599bd0FEd9";
+export const voltronAddress = "0x9813AE30514367E0a1D193508750402c3E5f3b00";

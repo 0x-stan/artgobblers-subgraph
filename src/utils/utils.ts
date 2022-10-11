@@ -1,3 +1,4 @@
+import { Address, Bytes } from "@graphprotocol/graph-ts";
 
 export function removeElementFromArray(
   element: string,
@@ -15,4 +16,8 @@ export function removeElementFromArray(
     }
   }
   return arr
+}
+
+export function initAddressZero(): Bytes {
+  return Address.fromHexString("0x0000000000000000000000000000000000000000");
 }

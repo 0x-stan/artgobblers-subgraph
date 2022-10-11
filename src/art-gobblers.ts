@@ -22,8 +22,9 @@ import {
   loadGobblerData,
   loadGobblerRevealsData,
   loadUserData,
-} from "./utils/loadOrNewEntity";
-import { gobblersAddress } from "../deployment";
+  loadLegendaryGobblerAuctionData,
+} from "./utils/loadOrCreateEntity";
+import { gobblersAddress } from "./deployment";
 import { removeElementFromArray } from "./utils/utils";
 
 const gobblersContract = ArtGobblers.bind(Address.fromString(gobblersAddress));
@@ -124,7 +125,58 @@ export function handleGooBalanceUpdated(event: GooBalanceUpdated): void {
 
 export function handleLegendaryGobblerMinted(
   event: LegendaryGobblerMinted
-): void {}
+): void {
+  const gobblerId = event.params.gobblerId;
+  const burndedList = event.params.burnedGobblerIds;
+
+  let gobblerData = loadGobblerData(gobblerId);
+  let gobblerDataRes = gobblersContract.try_getGobblerData(gobblerId);
+  if (!gobblerDataRes.reverted) {
+    gobblerData.owner = gobblerDataRes.value.getOwner();
+    gobblerData.idx = gobblerDataRes.value.getIdx();
+    gobblerData.emissionMultiple = gobblerDataRes.value.getEmissionMultiple();
+    gobblerData.isLegendary = true;
+  }
+  gobblerData.save();
+
+  let auctionData = loadLegendaryGobblerAuctionData();
+  const callResult = gobblersContract.try_legendaryGobblerAuctionData();
+  if (!callResult.reverted) {
+    auctionData.startPrice = callResult.value.getStartPrice();
+    auctionData.numSold = callResult.value.getNumSold();
+    let legendaryGobblerIds = auctionData.legendaryGobblerIds
+    legendaryGobblerIds.push(gobblerData.id);
+    auctionData.legendaryGobblerIds = legendaryGobblerIds;
+  }
+  auctionData.save();
+
+  let user = loadUserData(event.params.user);
+  // remove burned gobblers
+  let userGobblers = user.gobblers;
+  for (let i = 0; i < burndedList.length; i++) {
+    const _id = burndedList[i];
+    userGobblers = removeElementFromArray(_id.toString(), userGobblers);
+  }
+  // add legendary gobbler id
+  userGobblers.push(gobblerId.toString());
+  user.gobblers = userGobblers;
+  // update user data
+  let userDataRes = gobblersContract.try_getUserData(
+    Address.fromBytes(user.address)
+  );
+  if (!userDataRes.reverted) {
+    user.gobblersOwned = userDataRes.value.getGobblersOwned();
+    user.emissionMultiple = userDataRes.value.getEmissionMultiple();
+    user.lastBalance = userDataRes.value.getLastBalance();
+    user.lastBalanceDecimal = user.lastBalance
+      .toBigDecimal()
+      .div(INT_DECIMAL)
+      .toString();
+    user.lastTimestamp = userDataRes.value.getLastTimestamp();
+  }
+
+  user.save();
+}
 
 export function handleOwnerUpdated(event: OwnerUpdated): void {
   let artGobblersData = loadArtGobblersData();
@@ -160,8 +212,12 @@ export function handleReservedGobblersMinted(
 ): void {
   let artGobblersData = loadArtGobblersData();
   artGobblersData.currentNonLegendaryId = event.params.lastMintedGobblerId;
-  artGobblersData.numMintedForReserves = artGobblersData.numMintedForReserves.plus(event.params.numGobblersEach);
-  artGobblersData.numMintedForCommunity = artGobblersData.numMintedForCommunity.plus(event.params.numGobblersEach);
+  artGobblersData.numMintedForReserves = artGobblersData.numMintedForReserves.plus(
+    event.params.numGobblersEach
+  );
+  artGobblersData.numMintedForCommunity = artGobblersData.numMintedForCommunity.plus(
+    event.params.numGobblersEach
+  );
   artGobblersData.save();
 }
 

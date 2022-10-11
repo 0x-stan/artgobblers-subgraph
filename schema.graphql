@@ -31,6 +31,7 @@ type GobblerData @entity {
   owner: Bytes! # The current owner of the gobbler.
   idx: BigInt! # The current owner of the gobbler.
   emissionMultiple: BigInt! # Multiple on goo issuance.
+  isLegendary: Boolean! # whether is legendary gobbler.
 }
 
 type UserData @entity {
@@ -49,6 +50,7 @@ type LegendaryGobblerAuctionData @entity {
   id: ID!
   startPrice: BigInt! # Start price of current legendary gobbler auction.
   numSold: BigInt! # Number of legendary gobblers sold so far.
+  legendaryGobblerIds: [GobblerData!]! # legendary gobblers
 }
 
 type GobblerRevealsData @entity {

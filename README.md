@@ -17,6 +17,18 @@ query Example {
     numMintedFromGoo
     currentNonLegendaryId
     numMintedForReserves
+    numMintedForCommunity
+    legendaryAuctionInterval
+  }
+  legendaryGobblerAuctionDatas {
+    id
+    startPrice
+    numSold
+    legendaryGobblerIds {
+      id
+      emissionMultiple
+      owner
+    }
   }
   gobblerRevealsDatas {
     id

@@ -6,7 +6,7 @@ dataSources:
     name: ArtGobblers
     network: goerli
     source:
-      address: "0xa02Fa46099c5da1B0e8287CEEC6A690f102311F5"
+      address: "0x6B78C09dc07c43deC95275D32e60Df2D88ab10FB"
       abi: ArtGobblers
       startBlock: 7739802
     mapping:
