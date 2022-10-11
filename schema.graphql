@@ -35,7 +35,8 @@ type GobblerData @entity {
   isClaimed: Boolean! # whether is claimed by whitelist user.
   mintTimestamp: BigInt! # block.timstamp when mint.
   price: BigInt! # mint price: claim 0, mintFromGoo (Goo), legendary (gobblers)
-  priceDecimal: String! # price in 1e18 decimal
+  priceDecimal: BigDecimal! # price in 1e18 decimal
+  burnedForLedendary: BigInt! # burned for which legendary gobbler, default is 0 (not burned)
 }
 
 type UserData @entity {
@@ -64,5 +65,32 @@ type GobblerRevealsData @entity {
   lastRevealedId: BigInt! # Id of latest gobbler which has been revealed so far.
   toBeRevealed: BigInt! # Remaining gobblers to be revealed with the current seed.
   waitingForSeed: Boolean! # Whether we are waiting to receive a seed from Chainlink.
+}
+
+type ArtGobblersDataDailySnapshot @entity {
+  " ID is # of days since Unix epoch time "
+  id: ID!
+  blockNumber: BigInt!
+
+  numNonLegendary: BigInt! # Number of total minted non-legendary gobblers
+  numMintedFromGoo: BigInt! # Number of gobblers minted from goo.
+  numMintedFromClaim: BigInt! # Number of gobblers minted from claim.
+  numMintedForReserves: BigInt! # The number of gobblers minted to the reserves.
+  numMintedForCommunity: BigInt! # The number of gobblers minted to the community.
+  
+  dailyNumNonLegendary: BigInt!
+  dailyNumMintedFromGoo: BigInt!
+  dailyNumMintedFromClaim: BigInt!
+  dailyNumMintedForReserves: BigInt!
+  dailyNumMintedForCommunity: BigInt!
+
+  numHolder: BigInt! # Number of gobbler holder
+  dailyNewHolder: BigInt! # Number of daily new holders
+
+  emissionMultiple: BigInt! # sum of all gobblers' emissionMultiple 
+  dailyEmissionMultiple: BigInt!
+
+  dailyVolumeDecimal: BigDecimal! # cost of goo volume
+  dailyAvgPriceDecimal: BigDecimal! # averange price of non-legendary gobblers
 }
 

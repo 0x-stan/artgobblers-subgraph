@@ -8,7 +8,7 @@ dataSources:
     source:
       address: "0x6B78C09dc07c43deC95275D32e60Df2D88ab10FB"
       abi: ArtGobblers
-      startBlock: 7739802
+      startBlock: 7748894
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6

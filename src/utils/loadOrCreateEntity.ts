@@ -1,14 +1,16 @@
-import { BigInt, Bytes, Address, ethereum } from "@graphprotocol/graph-ts";
+import { BigInt, Bytes, Address, ethereum, BigDecimal } from "@graphprotocol/graph-ts";
 import {
   ArtGobblersData,
   GobblerData,
   UserData,
   LegendaryGobblerAuctionData,
   GobblerRevealsData,
+  ArtGobblersDataDailySnapshot,
 } from "../../generated/schema";
 import { ArtGobblers } from "../../generated/ArtGobblers/ArtGobblers";
 import { initAddressZero } from "./utils";
 import { gobblersAddress } from "../deployment";
+import { SECONDS_PER_DAY } from "../constants";
 const gobblersContract = ArtGobblers.bind(Address.fromString(gobblersAddress));
 
 const ARTGOBBLERS_DATA_ID = "ArtGobblers";
@@ -142,9 +144,10 @@ export function loadGobblerData(id: BigInt): GobblerData {
     entity.emissionMultiple = BigInt.fromString("0");
     entity.isLegendary = false;
     entity.isClaimed = false;
-    entity.price = BigInt.fromI32(0);
-    entity.priceDecimal = "0";
     entity.mintTimestamp = BigInt.fromI32(0);
+    entity.price = BigInt.fromI32(0);
+    entity.priceDecimal = BigDecimal.fromString("0");
+    entity.burnedForLedendary = BigInt.fromI32(0);
   }
   return entity;
 }
@@ -196,4 +199,41 @@ export function loadLegendaryGobblerAuctionData(): LegendaryGobblerAuctionData {
     entity.legendaryGobblerIds = [];
   }
   return entity;
+}
+
+export function loadArtGobblersDataDailySnapshot(
+  event: ethereum.Event
+): ArtGobblersDataDailySnapshot {
+  // Number of days since Unix epoch
+  let dayID = event.block.timestamp.toI32() / SECONDS_PER_DAY;
+  let id = dayID.toString();
+
+  let entity = ArtGobblersDataDailySnapshot.load(id);
+  if (entity == null) {
+    entity = new ArtGobblersDataDailySnapshot(id);
+    entity.blockNumber = event.block.number;
+
+    entity.numNonLegendary = BigInt.fromI32(0);
+    entity.numMintedFromGoo = BigInt.fromI32(0);
+    entity.numMintedFromClaim = BigInt.fromI32(0);
+    entity.numMintedForReserves = BigInt.fromI32(0);
+    entity.numMintedForCommunity = BigInt.fromI32(0);
+
+    entity.dailyNumNonLegendary = BigInt.fromI32(0);
+    entity.dailyNumMintedFromGoo = BigInt.fromI32(0);
+    entity.dailyNumMintedFromClaim = BigInt.fromI32(0);
+    entity.dailyNumMintedForReserves = BigInt.fromI32(0);
+    entity.dailyNumMintedForCommunity = BigInt.fromI32(0);
+
+    entity.numHolder = BigInt.fromI32(0);
+    entity.dailyNewHolder = BigInt.fromI32(0);
+
+    entity.emissionMultiple = BigInt.fromI32(0);
+    entity.dailyEmissionMultiple = BigInt.fromI32(0);
+
+    entity.dailyVolumeDecimal = BigDecimal.fromString("0");
+    entity.dailyAvgPriceDecimal = BigDecimal.fromString("0");
+  }
+
+  return entity
 }
