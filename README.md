@@ -28,6 +28,8 @@ query Example {
       id
       emissionMultiple
       owner
+      mintTimestamp
+      price
     }
   }
   gobblerRevealsDatas {
@@ -53,6 +55,11 @@ query Example {
     id
     emissionMultiple
     owner
+    price
+    priceDecimal
+    mintTimestamp
+    isClaimed
+    isLegendary
   }
 }
 ```

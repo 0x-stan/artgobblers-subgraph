@@ -141,6 +141,10 @@ export function loadGobblerData(id: BigInt): GobblerData {
     entity.owner = initAddressZero();
     entity.emissionMultiple = BigInt.fromString("0");
     entity.isLegendary = false;
+    entity.isClaimed = false;
+    entity.price = BigInt.fromI32(0);
+    entity.priceDecimal = "0";
+    entity.mintTimestamp = BigInt.fromI32(0);
   }
   return entity;
 }

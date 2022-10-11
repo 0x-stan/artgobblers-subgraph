@@ -32,6 +32,10 @@ type GobblerData @entity {
   idx: BigInt! # The current owner of the gobbler.
   emissionMultiple: BigInt! # Multiple on goo issuance.
   isLegendary: Boolean! # whether is legendary gobbler.
+  isClaimed: Boolean! # whether is claimed by whitelist user.
+  mintTimestamp: BigInt! # block.timstamp when mint.
+  price: BigInt! # mint price: claim 0, mintFromGoo (Goo), legendary (gobblers)
+  priceDecimal: String! # price in 1e18 decimal
 }
 
 type UserData @entity {

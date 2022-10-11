@@ -42,17 +42,22 @@ export function handleGobblerClaimed(event: GobblerClaimed): void {
 
   let user = loadUserData(event.params.user);
   let gobblerId = event.params.gobblerId;
-  let gobbler = loadGobblerData(gobblerId);
+  let gobblerData = loadGobblerData(gobblerId);
 
   user.gobblersOwned = user.gobblersOwned.plus(INT_ONE);
   let userGobblers = user.gobblers;
-  userGobblers.push(gobbler.id);
+  userGobblers.push(gobblerData.id);
   user.gobblers = userGobblers;
   user.hasClaimedMintlistGobbler = true;
   user.save();
 
-  gobbler.owner = user.address;
-  gobbler.save();
+  gobblerData.owner = user.address;
+  gobblerData.isLegendary = false;
+  gobblerData.isClaimed = true;
+  gobblerData.mintTimestamp = event.block.timestamp;
+  gobblerData.price = BigInt.fromI32(0);
+  gobblerData.priceDecimal = "0";
+  gobblerData.save();
 }
 
 export function handleGobblerPurchased(event: GobblerPurchased): void {
@@ -64,16 +69,24 @@ export function handleGobblerPurchased(event: GobblerPurchased): void {
 
   let user = loadUserData(event.params.user);
   let gobblerId = event.params.gobblerId;
-  let gobbler = loadGobblerData(gobblerId);
+  let gobblerData = loadGobblerData(gobblerId);
 
   user.gobblersOwned = user.gobblersOwned.plus(INT_ONE);
   let userGobblers = user.gobblers;
-  userGobblers.push(gobbler.id);
+  userGobblers.push(gobblerData.id);
   user.gobblers = userGobblers;
   user.save();
 
-  gobbler.owner = user.address;
-  gobbler.save();
+  gobblerData.owner = user.address;
+  gobblerData.isLegendary = false;
+  gobblerData.isClaimed = false;
+  gobblerData.mintTimestamp = event.block.timestamp;
+  gobblerData.price = event.params.price;
+  gobblerData.priceDecimal = event.params.price
+    .toBigDecimal()
+    .div(INT_DECIMAL)
+    .toString();
+  gobblerData.save();
 }
 
 export function handleGobblersRevealed(event: GobblersRevealed): void {
@@ -100,10 +113,10 @@ export function handleGobblersRevealed(event: GobblersRevealed): void {
       const idx = callResult.value.getIdx();
       const emissionMultiple = callResult.value.getEmissionMultiple();
 
-      let gobbler = loadGobblerData(_id);
-      gobbler.idx = idx;
-      gobbler.emissionMultiple = emissionMultiple;
-      gobbler.save();
+      let gobblerData = loadGobblerData(_id);
+      gobblerData.idx = idx;
+      gobblerData.emissionMultiple = emissionMultiple;
+      gobblerData.save();
 
       let user = loadUserData(owner);
       user.emissionMultiple = user.emissionMultiple.plus(emissionMultiple);
@@ -136,6 +149,10 @@ export function handleLegendaryGobblerMinted(
     gobblerData.idx = gobblerDataRes.value.getIdx();
     gobblerData.emissionMultiple = gobblerDataRes.value.getEmissionMultiple();
     gobblerData.isLegendary = true;
+    gobblerData.isClaimed = false;
+    gobblerData.mintTimestamp = event.block.timestamp;
+    gobblerData.price = BigInt.fromI32(burndedList.length);
+    gobblerData.priceDecimal = gobblerData.price.toString();
   }
   gobblerData.save();
 
@@ -144,7 +161,7 @@ export function handleLegendaryGobblerMinted(
   if (!callResult.reverted) {
     auctionData.startPrice = callResult.value.getStartPrice();
     auctionData.numSold = callResult.value.getNumSold();
-    let legendaryGobblerIds = auctionData.legendaryGobblerIds
+    let legendaryGobblerIds = auctionData.legendaryGobblerIds;
     legendaryGobblerIds.push(gobblerData.id);
     auctionData.legendaryGobblerIds = legendaryGobblerIds;
   }
@@ -228,9 +245,9 @@ export function handleTransfer(event: Transfer): void {
     return;
 
   const _id = event.params.id;
-  let gobbler = loadGobblerData(_id);
-  gobbler.owner = event.params.to;
-  gobbler.save();
+  let gobblerData = loadGobblerData(_id);
+  gobblerData.owner = event.params.to;
+  gobblerData.save();
 
   let userFrom = loadUserData(event.params.from);
   // remove gobbler of from user
@@ -263,7 +280,7 @@ export function handleTransfer(event: Transfer): void {
   // add gobbler of to user
   userTo.gobblersOwned = userTo.gobblersOwned.plus(INT_ONE);
   let userToGobblers = userTo.gobblers;
-  userToGobblers.push(gobbler.id);
+  userToGobblers.push(gobblerData.id);
   userTo.gobblers = userToGobblers;
   // update user's emissionMultiple
   let userToDataRes = gobblersContract.try_getUserData(
