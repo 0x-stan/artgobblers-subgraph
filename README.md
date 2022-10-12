@@ -5,6 +5,10 @@ Synced at: <https://thegraph.com/hosted-service/subgraph/0x-stan/artgobblers>
 
 Pending Changes at same URL
 
+Currently tracking mock ArtGobblers on goerli testnet. once the artgobblers mainnet goes live we will switch to the real contract address.
+
+Mock Artgobblers is used for testing VoltronGobblers, for more details see [voltron-gobblers](https://github.com/0x-stan/voltron-gobblers).
+
 example query:
 
 ```graphql
