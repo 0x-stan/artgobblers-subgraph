@@ -5,7 +5,7 @@ import {
   UserData,
   LegendaryGobblerAuctionData,
   GobblerRevealsData,
-  ArtGobblersDataDailySnapshot,
+  ArtGobblersDataDailySnapshot
 } from "../../generated/schema";
 import { ArtGobblers } from "../../generated/ArtGobblers/ArtGobblers";
 import { initAddressZero } from "./utils";
@@ -26,110 +26,107 @@ export function loadArtGobblersData(): ArtGobblersData {
 
     {
       let callResult = gobblersContract.try_goo();
-      if (!callResult.reverted) entity.gooAddress = callResult.value;
+      entity.gooAddress = callResult.reverted ? Address.fromI32(0) : callResult.value;
     }
 
     {
       let callResult = gobblersContract.try_pages();
-      if (!callResult.reverted) entity.pagesAddress = callResult.value;
+      entity.pagesAddress = callResult.reverted ? Address.fromI32(0) : callResult.value;
     }
 
     {
       let callResult = gobblersContract.try_team();
-      if (!callResult.reverted) entity.teamAddress = callResult.value;
+      entity.teamAddress = callResult.reverted ? Address.fromI32(0) : callResult.value;
     }
 
     {
       let callResult = gobblersContract.try_community();
-      if (!callResult.reverted) entity.communityAddress = callResult.value;
+      entity.communityAddress = callResult.reverted ? Address.fromI32(0) : callResult.value;
     }
 
     {
       let callResult = gobblersContract.try_randProvider();
-      if (!callResult.reverted) entity.randProviderAddress = callResult.value;
+      entity.randProviderAddress = callResult.reverted ? Address.fromI32(0) : callResult.value;
     }
 
     {
       let callResult = gobblersContract.try_MAX_SUPPLY();
-      if (!callResult.reverted) entity.gobblersMaxSupply = callResult.value;
+      entity.gobblersMaxSupply = callResult.reverted ? BigInt.fromI32(0) : callResult.value;
     }
 
     {
       let callResult = gobblersContract.try_MINTLIST_SUPPLY();
-      if (!callResult.reverted) entity.mintListSupply = callResult.value;
+      entity.mintListSupply = callResult.reverted ? BigInt.fromI32(0) : callResult.value;
     }
 
     {
       let callResult = gobblersContract.try_LEGENDARY_SUPPLY();
-      if (!callResult.reverted) entity.legendarySupply = callResult.value;
+      entity.legendarySupply = callResult.reverted ? BigInt.fromI32(0) : callResult.value;
     }
 
     {
       let callResult = gobblersContract.try_RESERVED_SUPPLY();
-      if (!callResult.reverted) entity.reservedSupply = callResult.value;
+      entity.reservedSupply = callResult.reverted ? BigInt.fromI32(0) : callResult.value;
     }
 
     {
       let callResult = gobblersContract.try_MAX_MINTABLE();
-      if (!callResult.reverted) entity.maxMintable = callResult.value;
+      entity.maxMintable = callResult.reverted ? BigInt.fromI32(0) : callResult.value;
     }
 
     {
       let callResult = gobblersContract.try_UNREVEALED_URI();
-      if (!callResult.reverted) entity.unrevealedURI = callResult.value;
+      entity.unrevealedURI = callResult.reverted ? "" : callResult.value;
     }
 
     {
       let callResult = gobblersContract.try_BASE_URI();
-      if (!callResult.reverted) entity.baseURI = callResult.value;
+      entity.baseURI = callResult.reverted ? "" : callResult.value;
     }
 
     {
       let callResult = gobblersContract.try_merkleRoot();
-      if (!callResult.reverted) entity.merkleRoot = callResult.value;
+      entity.merkleRoot = callResult.reverted ? Bytes.fromI32(0) : callResult.value;
     }
 
     {
       let callResult = gobblersContract.try_mintStart();
-      if (!callResult.reverted) entity.mintStart = callResult.value;
+      entity.mintStart = callResult.reverted ? BigInt.fromI32(0) : callResult.value;
     }
 
     {
       let callResult = gobblersContract.try_numMintedFromGoo();
-      if (!callResult.reverted) entity.numMintedFromGoo = callResult.value;
+      entity.numMintedFromGoo = callResult.reverted ? BigInt.fromI32(0) : callResult.value;
     }
 
     {
       let callResult = gobblersContract.try_currentNonLegendaryId();
-      if (!callResult.reverted) entity.currentNonLegendaryId = callResult.value;
+      entity.currentNonLegendaryId = callResult.reverted ? BigInt.fromI32(0) : callResult.value;
     }
 
     {
       let callResult = gobblersContract.try_numMintedForReserves();
-      if (!callResult.reverted) entity.numMintedForReserves = callResult.value;
+      entity.numMintedForReserves = callResult.reverted ? BigInt.fromI32(0) : callResult.value;
     }
 
     {
       let callResult = gobblersContract.try_numMintedForReserves();
-      if (!callResult.reverted) entity.numMintedForCommunity = callResult.value;
+      entity.numMintedForCommunity = callResult.reverted ? BigInt.fromI32(0) : callResult.value;
     }
 
     {
       let callResult = gobblersContract.try_LEGENDARY_GOBBLER_INITIAL_START_PRICE();
-      if (!callResult.reverted)
-        entity.legendaryGobblerInitialStartPrice = callResult.value;
+      entity.legendaryGobblerInitialStartPrice = callResult.reverted ? BigInt.fromI32(0) : callResult.value;
     }
 
     {
       let callResult = gobblersContract.try_FIRST_LEGENDARY_GOBBLER_ID();
-      if (!callResult.reverted)
-        entity.firstLegendaryGobblerId = callResult.value;
+      entity.firstLegendaryGobblerId = callResult.reverted ? BigInt.fromI32(0) : callResult.value;
     }
 
     {
       let callResult = gobblersContract.try_LEGENDARY_AUCTION_INTERVAL();
-      if (!callResult.reverted)
-        entity.legendaryAuctionInterval = callResult.value;
+      entity.legendaryAuctionInterval = callResult.reverted ? BigInt.fromI32(0) : callResult.value;
     }
   }
   return entity;
@@ -201,9 +198,7 @@ export function loadLegendaryGobblerAuctionData(): LegendaryGobblerAuctionData {
   return entity;
 }
 
-export function loadArtGobblersDataDailySnapshot(
-  event: ethereum.Event
-): ArtGobblersDataDailySnapshot {
+export function loadArtGobblersDataDailySnapshot(event: ethereum.Event): ArtGobblersDataDailySnapshot {
   // Number of days since Unix epoch
   let dayID = event.block.timestamp.toI32() / SECONDS_PER_DAY;
   let id = dayID.toString();
@@ -235,5 +230,5 @@ export function loadArtGobblersDataDailySnapshot(
     entity.dailyAvgPriceDecimal = BigDecimal.fromString("0");
   }
 
-  return entity
+  return entity;
 }

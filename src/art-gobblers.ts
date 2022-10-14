@@ -36,8 +36,11 @@ export function handleArtGobbled(event: ArtGobbled): void {}
 
 export function handleGobblerClaimed(event: GobblerClaimed): void {
   let artGobblersData = loadArtGobblersData();
-  artGobblersData.currentNonLegendaryId = gobblersContract.try_currentNonLegendaryId().value;
-  artGobblersData.save();
+  let callResult = gobblersContract.try_currentNonLegendaryId()
+  if (!callResult.reverted) {
+    artGobblersData.currentNonLegendaryId = callResult.value;
+    artGobblersData.save();
+  }
 
   let user = loadUserData(event.params.user);
   let gobblerId = event.params.gobblerId;
@@ -75,9 +78,10 @@ export function handleGobblerClaimed(event: GobblerClaimed): void {
 
 export function handleGobblerPurchased(event: GobblerPurchased): void {
   let artGobblersData = loadArtGobblersData();
-  artGobblersData.numMintedFromGoo = gobblersContract.try_numMintedFromGoo().value;
-  artGobblersData.currentNonLegendaryId = gobblersContract.try_currentNonLegendaryId().value;
-  // artGobblersData.numMintedForReserves = gobblersContract.try_numMintedForReserves().value;
+  let callResult = gobblersContract.try_numMintedFromGoo()
+  if (!callResult.reverted) artGobblersData.numMintedFromGoo = callResult.value;
+  callResult = gobblersContract.try_currentNonLegendaryId()
+  if (!callResult.reverted) artGobblersData.currentNonLegendaryId = callResult.value;
   artGobblersData.save();
 
   let user = loadUserData(event.params.user);
