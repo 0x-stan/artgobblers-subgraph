@@ -171,8 +171,7 @@ export function handleGooBalanceUpdated(event: GooBalanceUpdated): void {
   user.lastBalance = event.params.newGooBalance;
   user.lastBalanceDecimal = event.params.newGooBalance
     .toBigDecimal()
-    .div(BIGDECIMAL_DECIMAL)
-    .toString();
+    .div(BIGDECIMAL_DECIMAL);
   user.lastTimestamp = event.block.timestamp;
   user.save();
 }
@@ -235,8 +234,7 @@ export function handleLegendaryGobblerMinted(event: LegendaryGobblerMinted): voi
     user.lastBalance = userDataRes.value.getLastBalance();
     user.lastBalanceDecimal = user.lastBalance
       .toBigDecimal()
-      .div(BIGDECIMAL_DECIMAL)
-      .toString();
+      .div(BIGDECIMAL_DECIMAL);
     user.lastTimestamp = userDataRes.value.getLastTimestamp();
   }
 
@@ -319,8 +317,7 @@ export function handleTransfer(event: Transfer): void {
     userFrom.lastBalance = userFromGooBalanceRes.value;
     userFrom.lastBalanceDecimal = userFromGooBalanceRes.value
       .toBigDecimal()
-      .div(BIGDECIMAL_DECIMAL)
-      .toString();
+      .div(BIGDECIMAL_DECIMAL);
     userFrom.lastTimestamp = event.block.timestamp;
   }
   userFrom.save();
@@ -342,8 +339,7 @@ export function handleTransfer(event: Transfer): void {
     userTo.lastBalance = userToGooBalanceRes.value;
     userTo.lastBalanceDecimal = userToGooBalanceRes.value
       .toBigDecimal()
-      .div(BIGDECIMAL_DECIMAL)
-      .toString();
+      .div(BIGDECIMAL_DECIMAL);
     userTo.lastTimestamp = event.block.timestamp;
   }
   userTo.save();

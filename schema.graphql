@@ -45,7 +45,7 @@ type UserData @entity {
   gobblersOwned: BigInt! # The total number of gobblers currently owned by the user.
   emissionMultiple: BigInt! # The sum of the multiples of all gobblers the user holds.
   lastBalance: BigInt! # The sum of the multiples of all gobblers the user holds.
-  lastBalanceDecimal: String! # The sum of the multiples of all gobblers the user holds.
+  lastBalanceDecimal: BigDecimal! # The sum of the multiples of all gobblers the user holds.
   lastTimestamp: BigInt! # Timestamp of the last goo balance checkpoint.
   hasClaimedMintlistGobbler: Boolean! # whitelist gobbler claimed
   gobblers: [GobblerData!]! # user's gobblers
@@ -92,5 +92,26 @@ type ArtGobblersDataDailySnapshot @entity {
 
   dailyVolumeDecimal: BigDecimal! # cost of goo volume
   dailyAvgPriceDecimal: BigDecimal! # averange price of non-legendary gobblers
+}
+
+type VoltronGobblersData @entity {
+  id: ID!
+  address: Bytes!
+  totalGobblersOwned: BigInt! # The total number of gobblers currently owned by the user.
+  totalEmissionMultiple: BigInt! # The sum of the multiples of all gobblers the user holds.
+  totalVirtualBalanceDecimal: BigDecimal! # User's goo balance at time of last checkpointing.
+  lastTimestamp: BigInt! # Timestamp of the last goo balance checkpoint.
+  claimableGobblers: [GobblerData!]! # voltron gobblers in the pool can be claim
+}
+
+type VoltronUserData @entity {
+  id: ID!
+  address: Bytes!
+  gobblersOwned: BigInt! # The total number of gobblers currently owned by the user.
+  emissionMultiple: BigInt! # The sum of the multiples of all gobblers the user holds.
+  virtualBalanceDecimal: BigDecimal! # The sum of the multiples of all gobblers the user holds.
+  claimedNum: BigInt! # claimed pool's gobbler number
+  lastTimestamp: BigInt! # Timestamp of the last goo balance checkpoint.
+  gobblers: [GobblerData!]! # user's gobblers in pool
 }
 

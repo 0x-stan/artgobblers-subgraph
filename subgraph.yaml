@@ -60,8 +60,9 @@ dataSources:
     name: VoltronGobblers
     network: goerli
     source:
-      address: "0xC67DC9B7E9184E23A1fA68781C6af43Ce4520d00"
+      address: "0x3cd9b731c2966159939289ef0a374b71fca36561"
       abi: VoltronGobblers
+      startBlock: 7774312
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -80,13 +81,13 @@ dataSources:
       eventHandlers:
         - event: ClaimVoltronGoo(indexed address,indexed uint256)
           handler: handleClaimVoltronGoo
-        - event: GobblerDepsit(indexed uint256[])
+        - event: GobblerDepsit(indexed address,indexed uint256[])
           handler: handleGobblerDepsit
         - event: GobblerMinted(indexed uint256,indexed uint256)
           handler: handleGobblerMinted
-        - event: GobblerWithdraw(indexed uint256[])
+        - event: GobblerWithdraw(indexed address,indexed uint256[])
           handler: handleGobblerWithdraw
-        - event: GobblersClaimed(indexed uint256[])
+        - event: GobblersClaimed(indexed address,indexed uint256[])
           handler: handleGobblersClaimed
         - event: GooBalanceUpdated(indexed address,uint256)
           handler: handleGooBalanceUpdated

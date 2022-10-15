@@ -5,14 +5,17 @@ import {
   UserData,
   LegendaryGobblerAuctionData,
   GobblerRevealsData,
-  ArtGobblersDataDailySnapshot
+  ArtGobblersDataDailySnapshot,
+  VoltronGobblersData,
+  VoltronUserData
 } from "../../generated/schema";
 import { ArtGobblers } from "../../generated/ArtGobblers/ArtGobblers";
 import { initAddressZero } from "./utils";
-import { gobblersAddress } from "../deployment";
+import { gobblersAddress, voltronAddress } from "../deployment";
 import { SECONDS_PER_DAY } from "../constants";
 const gobblersContract = ArtGobblers.bind(Address.fromString(gobblersAddress));
 
+// ArtGobblers
 const ARTGOBBLERS_DATA_ID = "ArtGobblers";
 const ARTGOBBLER_REVEALS_DATA_ID = "ArtGobblerReveals";
 const LEGENDARY_DATA_ID = "LegendaryGoblers";
@@ -157,7 +160,7 @@ export function loadUserData(address: Bytes): UserData {
     entity.gobblersOwned = BigInt.fromString("0");
     entity.emissionMultiple = BigInt.fromString("0");
     entity.lastBalance = BigInt.fromString("0");
-    entity.lastBalanceDecimal = "0";
+    entity.lastBalanceDecimal = BigDecimal.fromString("0");
     entity.lastTimestamp = BigInt.fromString("0");
     entity.hasClaimedMintlistGobbler = false;
     entity.gobblers = [];
@@ -230,5 +233,38 @@ export function loadArtGobblersDataDailySnapshot(event: ethereum.Event): ArtGobb
     entity.dailyAvgPriceDecimal = BigDecimal.fromString("0");
   }
 
+  return entity;
+}
+
+// VoltronGobblers
+const VOLTRON_GOBBLERS_DATA_ID = "VoltronGobblersData";
+
+export function loadVoltronGobblersData(): VoltronGobblersData {
+  let entity = VoltronGobblersData.load(VOLTRON_GOBBLERS_DATA_ID);
+  if (entity == null) {
+    entity = new VoltronGobblersData(VOLTRON_GOBBLERS_DATA_ID);
+    entity.address = Address.fromHexString(voltronAddress);
+    entity.totalGobblersOwned = BigInt.fromI32(0);
+    entity.totalEmissionMultiple = BigInt.fromI32(0);
+    entity.totalVirtualBalanceDecimal = BigDecimal.fromString("0");
+    entity.lastTimestamp = BigInt.fromI32(0);
+    entity.claimableGobblers = [];
+  }
+  return entity;
+}
+
+
+export function loadVoltronUserData(address: Bytes): VoltronUserData {
+  let entity = VoltronUserData.load(address.toHexString());
+  if (entity == null) {
+    entity = new VoltronUserData(address.toHexString());
+    entity.address = address;
+    entity.gobblersOwned = BigInt.fromString("0");
+    entity.emissionMultiple = BigInt.fromString("0");
+    entity.virtualBalanceDecimal = BigDecimal.fromString("0");
+    entity.claimedNum = BigInt.fromString("0");
+    entity.lastTimestamp = BigInt.fromString("0");
+    entity.gobblers = [];
+  }
   return entity;
 }
