@@ -64,7 +64,7 @@ query Example {
     hasClaimedMintlistGobbler
     gobblersOwned
   }
-  gobblerDatas(first: 20) {
+  gobblerDatas(first: 5, orderBy: id, orderDirection: desc) {
     id
     emissionMultiple
     owner

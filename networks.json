@@ -2,6 +2,9 @@
   "goerli": {
     "ArtGobblers": {
       "address": "0x3C31Fade61780515369BfA28c7F0808cB674BccB"
+    },
+    "VoltronGobblers": {
+      "address": "0xC67DC9B7E9184E23A1fA68781C6af43Ce4520d00"
     }
   }
 }
