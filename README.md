@@ -74,5 +74,16 @@ query Example {
     isClaimed
     isLegendary
   }
+  voltronUserDatas(first: 5) {
+    id
+    gobblersOwned
+    emissionMultiple
+    virtualBalanceDecimal
+    claimedNum
+    lastTimestamp
+    gobblers {
+      id
+    }
+  }
 }
 ```
