@@ -112,6 +112,14 @@ export function handleGobblersClaimed(event: GobblersClaimed): void {
     let voltronGobblersData = loadVoltronGobblersData();
     voltronGobblersData.totalGobblersOwned = voltronGobblersData.totalGobblersOwned.minus(len);
     voltronGobblersData.totalEmissionMultiple = voltronGobblersData.totalEmissionMultiple.minus(sumEmissionMultiple);
+    let globalGobblers = voltronGobblersData.claimableGobblers;
+    for (let i = 0; i < gobblerIds.length; i++) {
+      const _id = gobblerIds[i];
+      let _gobblerData = loadGobblerData(_id);
+      globalGobblers = removeElementFromArray(_gobblerData.id, globalGobblers);
+      sumEmissionMultiple = sumEmissionMultiple.minus(_gobblerData.emissionMultiple);
+    }
+    voltronGobblersData.claimableGobblers = globalGobblers;
     voltronGobblersData.save();
   }
 }
