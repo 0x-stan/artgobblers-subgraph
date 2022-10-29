@@ -68,10 +68,10 @@ dataSources:
       apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
-        - ClaimVoltronGoo
-        - GobblerDepsit
+        - VoltronGooClaimed
+        - GobblerDeposited
         - GobblerMinted
-        - GobblerWithdraw
+        - GobblerWithdrawn
         - GobblersClaimed
         - GooBalanceUpdated
         - OwnerUpdated
@@ -79,19 +79,19 @@ dataSources:
         - name: VoltronGobblers
           file: ./abis/VoltronGobblers.json
       eventHandlers:
-        - event: ClaimVoltronGoo(indexed address,indexed uint256)
-          handler: handleClaimVoltronGoo
-        - event: GobblerDepsit(indexed address,indexed uint256[],uint256[])
-          handler: handleGobblerDepsit
+        - event: VoltronGooClaimed(indexed address,indexed uint256)
+          handler: handleVoltronGooClaimed
+        - event: GobblerDeposited(indexed address,indexed uint256[],uint256[])
+          handler: handleGobblerDeposited
         - event: GobblerMinted(indexed uint256,indexed uint256[],uint256[])
           handler: handleGobblerMinted
-        - event: GobblerWithdraw(indexed address,indexed uint256[],uint256[])
-          handler: handleGobblerWithdraw
+        - event: GobblerWithdrawn(indexed address,indexed uint256[],uint256[])
+          handler: handleGobblerWithdrawn
         - event: GobblersClaimed(indexed address,indexed uint256[],uint256[])
           handler: handleGobblersClaimed
         - event: GooBalanceUpdated(indexed address,uint256)
           handler: handleGooBalanceUpdated
-        - event: OwnerUpdated(indexed address,indexed address)
-          handler: handleOwnerUpdated
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
       file: ./src/voltron-gobblers.ts
 

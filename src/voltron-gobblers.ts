@@ -2,19 +2,19 @@ import { BigInt, ethereum, log, store } from "@graphprotocol/graph-ts";
 import { GobblerData } from "../generated/schema";
 import {
   VoltronGobblers,
-  ClaimVoltronGoo,
-  GobblerDepsit,
+  VoltronGooClaimed,
+  GobblerDeposited,
   GobblerMinted,
-  GobblerWithdraw,
+  GobblerWithdrawn,
   GobblersClaimed,
   GooBalanceUpdated,
-  OwnerUpdated
+  OwnershipTransferred
 } from "../generated/VoltronGobblers/VoltronGobblers";
 import { BIGDECIMAL_DECIMAL } from "./constants";
 import { loadGobblerData, loadVoltronGobblersData, loadVoltronUserData } from "./utils/loadOrCreateEntity";
 import { removeElementFromArray } from "./utils/utils";
 
-export function handleClaimVoltronGoo(event: ClaimVoltronGoo): void {
+export function handleVoltronGooClaimed(event: VoltronGooClaimed): void {
   const user = event.params.to;
   const amount = event.params.amount;
   let voltronUserData = loadVoltronUserData(user);
@@ -22,7 +22,7 @@ export function handleClaimVoltronGoo(event: ClaimVoltronGoo): void {
   voltronUserData.save();
 }
 
-export function handleGobblerDepsit(event: GobblerDepsit): void {
+export function handleGobblerDeposited(event: GobblerDeposited): void {
   const user = event.params.user;
   const gobblerIds = event.params.gobblerIds;
   let sumEmissionMultiple = BigInt.fromI32(0);
@@ -64,7 +64,7 @@ export function handleGobblerMinted(event: GobblerMinted): void {
   voltronGobblersData.save();
 }
 
-export function handleGobblerWithdraw(event: GobblerWithdraw): void {
+export function handleGobblerWithdrawn(event: GobblerWithdrawn): void {
   const user = event.params.user;
   const gobblerIds = event.params.gobblerIds;
   let voltronUserData = loadVoltronUserData(user);
@@ -134,4 +134,4 @@ export function handleGooBalanceUpdated(event: GooBalanceUpdated): void {
   voltronUserData.save();
 }
 
-export function handleOwnerUpdated(event: OwnerUpdated): void {}
+export function handleOwnershipTransferred(event: OwnershipTransferred): void {}

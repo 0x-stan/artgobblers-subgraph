@@ -26,25 +26,6 @@
       {
         "indexed": true,
         "internalType": "address",
-        "name": "to",
-        "type": "address"
-      },
-      {
-        "indexed": true,
-        "internalType": "uint256",
-        "name": "amount",
-        "type": "uint256"
-      }
-    ],
-    "name": "ClaimVoltronGoo",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "address",
         "name": "user",
         "type": "address"
       },
@@ -61,7 +42,7 @@
         "type": "uint256[]"
       }
     ],
-    "name": "GobblerDepsit",
+    "name": "GobblerDeposited",
     "type": "event"
   },
   {
@@ -111,7 +92,7 @@
         "type": "uint256[]"
       }
     ],
-    "name": "GobblerWithdraw",
+    "name": "GobblerWithdrawn",
     "type": "event"
   },
   {
@@ -174,7 +155,26 @@
         "type": "address"
       }
     ],
-    "name": "OwnerUpdated",
+    "name": "OwnershipTransferred",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "to",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "VoltronGooClaimed",
     "type": "event"
   },
   {
@@ -300,14 +300,14 @@
         "type": "uint128"
       },
       {
-        "internalType": "uint64",
+        "internalType": "uint16",
         "name": "claimedNum",
-        "type": "uint64"
+        "type": "uint16"
       },
       {
-        "internalType": "uint64",
+        "internalType": "uint48",
         "name": "lastTimestamp",
-        "type": "uint64"
+        "type": "uint48"
       }
     ],
     "stateMutability": "view",
@@ -333,9 +333,9 @@
         "type": "uint128"
       },
       {
-        "internalType": "uint64",
+        "internalType": "uint48",
         "name": "lastTimestamp",
-        "type": "uint64"
+        "type": "uint48"
       }
     ],
     "stateMutability": "view",
@@ -470,7 +470,7 @@
         "type": "address"
       }
     ],
-    "name": "setOwner",
+    "name": "transferOwnership",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
