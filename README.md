@@ -44,18 +44,6 @@ query Example {
     toBeRevealed
     waitingForSeed
   }
-  artGobblersDataDailySnapshots(first: 5, orderDirection: desc) {
-    id
-    blockNumber
-    numNonLegendary
-    dailyNumNonLegendary
-    numHolder
-    dailyNewHolder
-    emissionMultiple
-    dailyEmissionMultiple
-    dailyVolumeDecimal
-    dailyAvgPriceDecimal
-  }
   userDatas(first: 5) {
     id
     lastBalance
@@ -73,6 +61,18 @@ query Example {
     mintTimestamp
     isClaimed
     isLegendary
+  }
+  artGobblersDataDailySnapshots(first: 5, orderDirection: desc) {
+    id
+    blockNumber
+    numNonLegendary
+    dailyNumNonLegendary
+    numHolder
+    dailyNewHolder
+    emissionMultiple
+    dailyEmissionMultiple
+    dailyVolumeDecimal
+    dailyAvgPriceDecimal
   }
   voltronUserDatas(first: 5) {
     id

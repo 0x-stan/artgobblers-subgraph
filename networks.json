@@ -1,10 +1,10 @@
 {
   "goerli": {
     "ArtGobblers": {
-      "address": "0xE99EF336106DF980Ba5F6d80b0D5990550Eb87DB"
+      "address": "0xd79AEC30B07384EEabd81cCDE06644ba2DA39527"
     },
     "VoltronGobblers": {
-      "address": "0xfde76a2642e72019d780a11d64281b7791ca119a"
+      "address": "0x6EacAA3cf3835C11cf6c18f31Be282485FaF3CA5"
     }
   }
 }
