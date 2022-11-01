@@ -1,4 +1,12 @@
 {
+  "mainnet": {
+    "ArtGobblers": {
+      "address": "0x60bb1e2AA1c9ACAfB4d34F71585D7e959f387769"
+    },
+    "VoltronGobblers": {
+      "address": "0x57137e3214fe320A124ab9208F099865EF0900E7"
+    }
+  },
   "goerli": {
     "ArtGobblers": {
       "address": "0xd79AEC30B07384EEabd81cCDE06644ba2DA39527"

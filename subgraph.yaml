@@ -4,11 +4,11 @@ schema:
 dataSources:
   - kind: ethereum
     name: ArtGobblers
-    network: goerli
+    network: mainnet
     source:
-      address: "0xd79AEC30B07384EEabd81cCDE06644ba2DA39527"
+      address: "0x60bb1e2AA1c9ACAfB4d34F71585D7e959f387769"
       abi: ArtGobblers
-      startBlock: 7856187
+      startBlock: 15863321
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -58,11 +58,11 @@ dataSources:
       
   - kind: ethereum
     name: VoltronGobblers
-    network: goerli
+    network: mainnet
     source:
-      address: "0x6EacAA3cf3835C11cf6c18f31Be282485FaF3CA5"
+      address: "0x57137e3214fe320A124ab9208F099865EF0900E7"
       abi: VoltronGobblers
-      startBlock: 7856188
+      startBlock: 15863321
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6

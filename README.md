@@ -44,7 +44,7 @@ query Example {
     toBeRevealed
     waitingForSeed
   }
-  userDatas(first: 5) {
+  userDatas(first: 5, orderBy: gobblersOwned, orderDirection: desc) {
     id
     lastBalance
     lastBalanceDecimal
@@ -52,7 +52,7 @@ query Example {
     hasClaimedMintlistGobbler
     gobblersOwned
   }
-  gobblerDatas(first: 5, orderBy: id, orderDirection: desc) {
+  gobblerDatas(first: 5) {
     id
     emissionMultiple
     owner
