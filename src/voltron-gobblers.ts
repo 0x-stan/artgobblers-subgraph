@@ -77,7 +77,7 @@ export function handleGobblerWithdrawn(event: GobblerWithdrawn): void {
     const _id = gobblerIds[i];
     let _gobblerData = loadGobblerData(_id);
     gobblers = removeElementFromArray(_gobblerData.id, gobblers);
-    sumEmissionMultiple = sumEmissionMultiple.minus(_gobblerData.emissionMultiple);
+    sumEmissionMultiple = sumEmissionMultiple.plus(_gobblerData.emissionMultiple);
   }
   voltronUserData.gobblers = gobblers;
   voltronUserData.emissionMultiple = voltronUserData.emissionMultiple.minus(sumEmissionMultiple);
