@@ -26,6 +26,7 @@ export function loadArtGobblersData(): ArtGobblersData {
     entity = new ArtGobblersData(ARTGOBBLERS_DATA_ID);
     entity.owner = initAddressZero();
     entity.gobblersAddress = Address.fromHexString(gobblersAddress);
+    entity.totalEmissionMultiple = BigInt.fromI32(0);
 
     {
       let callResult = gobblersContract.try_goo();

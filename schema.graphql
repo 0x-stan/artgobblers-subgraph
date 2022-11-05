@@ -24,6 +24,7 @@ type ArtGobblersData @entity {
   legendaryGobblerInitialStartPrice: BigInt! # Initial legendary gobbler auction price.
   firstLegendaryGobblerId: BigInt! # The last LEGENDARY_SUPPLY ids are reserved for legendary gobblers.
   legendaryAuctionInterval: BigInt! # Legendary auctions begin each time a multiple of these many gobblers have been minted from goo.
+  totalEmissionMultiple: BigInt!
 }
 
 type GobblerData @entity {

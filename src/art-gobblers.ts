@@ -159,6 +159,11 @@ export function handleGobblersRevealed(event: GobblersRevealed): void {
     }
   }
 
+  // global data
+  let globalData = loadArtGobblersData();
+  globalData.totalEmissionMultiple = globalData.totalEmissionMultiple.plus(sumEmissionMultiple);
+  globalData.save();
+
   // update daily snapshot
   let dailySnapshot = loadArtGobblersDataDailySnapshot(event);
   dailySnapshot.emissionMultiple = dailySnapshot.emissionMultiple.plus(sumEmissionMultiple);
@@ -239,6 +244,11 @@ export function handleLegendaryGobblerMinted(event: LegendaryGobblerMinted): voi
   }
 
   user.save();
+
+  // global data
+  let globalData = loadArtGobblersData();
+  globalData.totalEmissionMultiple = globalData.totalEmissionMultiple.plus(sumEmissionMultiple);
+  globalData.save();
 
   // update daily snapshot
   let dailySnapshot = loadArtGobblersDataDailySnapshot(event);
