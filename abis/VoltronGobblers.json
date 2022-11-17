@@ -15,6 +15,11 @@
         "internalType": "address",
         "name": "goo_",
         "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "timeLockDuration_",
+        "type": "uint256"
       }
     ],
     "stateMutability": "nonpayable",
@@ -178,6 +183,32 @@
     "type": "event"
   },
   {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "addGoo",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256[]",
+        "name": "gobblerIds",
+        "type": "uint256[]"
+      }
+    ],
+    "name": "adminClaimGobblersAndGoo",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
     "inputs": [],
     "name": "artGobblers",
     "outputs": [
@@ -185,6 +216,19 @@
         "internalType": "address",
         "name": "",
         "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "claimGobblerLock",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
       }
     ],
     "stateMutability": "view",
@@ -199,13 +243,6 @@
       }
     ],
     "name": "claimVoltronGobblers",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "claimVoltronGoo",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -248,6 +285,11 @@
         "internalType": "uint256[]",
         "name": "gobblerIds",
         "type": "uint256[]"
+      },
+      {
+        "internalType": "uint256",
+        "name": "gooAmount",
+        "type": "uint256"
       }
     ],
     "name": "depositGobblers",
@@ -308,6 +350,11 @@
         "internalType": "uint48",
         "name": "lastTimestamp",
         "type": "uint48"
+      },
+      {
+        "internalType": "uint48",
+        "name": "lastGooDepositedTimestamp",
+        "type": "uint48"
       }
     ],
     "stateMutability": "view",
@@ -319,7 +366,7 @@
     "outputs": [
       {
         "internalType": "uint32",
-        "name": "totalGobblersOwned",
+        "name": "totalGobblersDeposited",
         "type": "uint32"
       },
       {
@@ -342,6 +389,19 @@
     "type": "function"
   },
   {
+    "inputs": [],
+    "name": "globalGooBalance",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [
       {
         "internalType": "uint256",
@@ -349,7 +409,7 @@
         "type": "uint256"
       }
     ],
-    "name": "gobblersClaimed",
+    "name": "gobblerClaimable",
     "outputs": [
       {
         "internalType": "bool",
@@ -387,6 +447,19 @@
         "internalType": "uint256",
         "name": "",
         "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "mintLock",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
       }
     ],
     "stateMutability": "view",
@@ -444,7 +517,7 @@
         "type": "bool"
       }
     ],
-    "name": "setClaimGooLock",
+    "name": "setMintLock",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -452,14 +525,27 @@
   {
     "inputs": [
       {
-        "internalType": "bool",
-        "name": "isLock",
-        "type": "bool"
+        "internalType": "uint256",
+        "name": "timeLockDuration_",
+        "type": "uint256"
       }
     ],
-    "name": "setMintLock",
+    "name": "setTimeLockDuration",
     "outputs": [],
     "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "timeLockDuration",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -473,37 +559,6 @@
     "name": "transferOwnership",
     "outputs": [],
     "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "updateGlobalBalance",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "voltronGooData",
-    "outputs": [
-      {
-        "internalType": "uint128",
-        "name": "claimableGoo",
-        "type": "uint128"
-      },
-      {
-        "internalType": "uint64",
-        "name": "lastTimestamp",
-        "type": "uint64"
-      }
-    ],
-    "stateMutability": "view",
     "type": "function"
   },
   {

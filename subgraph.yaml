@@ -60,7 +60,7 @@ dataSources:
     name: VoltronGobblers
     network: mainnet
     source:
-      address: "0x57137e3214fe320A124ab9208F099865EF0900E7"
+      address: "0x2A2fC41ccD69f33a62b8b735E9cF4474bA48cAE2"
       abi: VoltronGobblers
       startBlock: 15863321
     mapping:
