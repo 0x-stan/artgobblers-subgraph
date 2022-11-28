@@ -4,7 +4,7 @@
       "address": "0x60bb1e2AA1c9ACAfB4d34F71585D7e959f387769"
     },
     "VoltronGobblers": {
-      "address": "0x2A2fC41ccD69f33a62b8b735E9cF4474bA48cAE2"
+      "address": "0x644a17ca8e171a97f4da6a4315b0997342f24d89"
     }
   },
   "goerli": {
@@ -12,7 +12,7 @@
       "address": "0xd79AEC30B07384EEabd81cCDE06644ba2DA39527"
     },
     "VoltronGobblers": {
-      "address": "0x2A2fC41ccD69f33a62b8b735E9cF4474bA48cAE2"
+      "address": "0x644a17ca8e171a97f4da6a4315b0997342f24d89"
     }
   }
 }

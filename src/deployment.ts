@@ -6,4 +6,4 @@ export const randProviderAddress = "0xe901e31B756a69ABE8Bb0FD37B5aa02a9173a4dC";
 export const gooAddress = "0x600000000a36F3cD48407e35eB7C5c910dc1f7a8";
 export const gobblersAddress = "0x60bb1e2AA1c9ACAfB4d34F71585D7e959f387769";
 export const pagesAddress = "0x600Df00d3E42F885249902606383ecdcb65f2E02";
-export const voltronAddress = "0x2A2fC41ccD69f33a62b8b735E9cF4474bA48cAE2";
+export const voltronAddress = "0x644a17ca8e171a97f4da6a4315b0997342f24d89";

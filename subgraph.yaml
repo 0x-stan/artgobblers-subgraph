@@ -60,15 +60,15 @@ dataSources:
     name: VoltronGobblers
     network: mainnet
     source:
-      address: "0x2A2fC41ccD69f33a62b8b735E9cF4474bA48cAE2"
+      address: "0x644a17ca8e171a97f4da6a4315b0997342f24d89"
       abi: VoltronGobblers
-      startBlock: 15863321
+      startBlock: 16062270
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
-        - VoltronGooClaimed
+        - GooClaimed
         - GobblerDeposited
         - GobblerMinted
         - GobblerWithdrawn
@@ -79,8 +79,8 @@ dataSources:
         - name: VoltronGobblers
           file: ./abis/VoltronGobblers.json
       eventHandlers:
-        - event: VoltronGooClaimed(indexed address,indexed uint256)
-          handler: handleVoltronGooClaimed
+        - event: GooClaimed(indexed address,indexed uint256)
+          handler: handleGooClaimed
         - event: GobblerDeposited(indexed address,indexed uint256[],uint256[])
           handler: handleGobblerDeposited
         - event: GobblerMinted(indexed uint256,indexed uint256[],uint256[])

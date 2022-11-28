@@ -2,7 +2,7 @@ import { BigInt, ethereum, log, store } from "@graphprotocol/graph-ts";
 import { GobblerData } from "../generated/schema";
 import {
   VoltronGobblers,
-  VoltronGooClaimed,
+  GooClaimed,
   GobblerDeposited,
   GobblerMinted,
   GobblerWithdrawn,
@@ -14,7 +14,7 @@ import { BIGDECIMAL_DECIMAL } from "./constants";
 import { loadGobblerData, loadVoltronGobblersData, loadVoltronUserData } from "./utils/loadOrCreateEntity";
 import { removeElementFromArray } from "./utils/utils";
 
-export function handleVoltronGooClaimed(event: VoltronGooClaimed): void {
+export function handleGooClaimed(event: GooClaimed): void {
   const user = event.params.to;
   const amount = event.params.amount;
   let voltronUserData = loadVoltronUserData(user);
