@@ -26,24 +26,29 @@ export function handleGobblerDeposited(event: GobblerDeposited): void {
   const user = event.params.user;
   const gobblerIds = event.params.gobblerIds;
   let sumEmissionMultiple = BigInt.fromI32(0);
+  let voltronUserData = loadVoltronUserData(user);
+  const prevLen = voltronUserData.gobblers.length;
+  const addLen = BigInt.fromI32(gobblerIds.length);
 
   if (gobblerIds) {
-    let voltronUserData = loadVoltronUserData(user);
-    const len = BigInt.fromI32(gobblerIds.length);
-    voltronUserData.gobblersOwned = voltronUserData.gobblersOwned.plus(len);
+    voltronUserData.gobblersOwned = voltronUserData.gobblersOwned.plus(addLen);
     let gobblers = voltronUserData.gobblers;
     for (let i = 0; i < gobblerIds.length; i++) {
       const _id = gobblerIds[i];
       let _gobblerData = loadGobblerData(_id);
+      gobblers[prevLen + i] = _gobblerData.id;
       gobblers.push(_gobblerData.id);
       sumEmissionMultiple = sumEmissionMultiple.plus(_gobblerData.emissionMultiple);
     }
+
+    log.warning("Deposit Ids", [gobblers.length.toString(), prevLen.toString(), addLen.toString(), voltronUserData.gobblersOwned.toString()]);
+
     voltronUserData.gobblers = gobblers;
     voltronUserData.emissionMultiple = voltronUserData.emissionMultiple.plus(sumEmissionMultiple);
     voltronUserData.save();
 
     let voltronGobblersData = loadVoltronGobblersData();
-    voltronGobblersData.totalGobblersOwned = voltronGobblersData.totalGobblersOwned.plus(len);
+    voltronGobblersData.totalGobblersOwned = voltronGobblersData.totalGobblersOwned.plus(addLen);
     voltronGobblersData.totalEmissionMultiple = voltronGobblersData.totalEmissionMultiple.plus(sumEmissionMultiple);
     voltronGobblersData.save();
   }
@@ -97,28 +102,20 @@ export function handleGobblersClaimed(event: GobblersClaimed): void {
   if (gobblerIds) {
     let voltronUserData = loadVoltronUserData(user);
     const len = BigInt.fromI32(gobblerIds.length);
-    voltronUserData.gobblersOwned = voltronUserData.gobblersOwned.minus(len);
-    let gobblers = voltronUserData.gobblers;
-    for (let i = 0; i < gobblerIds.length; i++) {
-      const _id = gobblerIds[i];
-      let _gobblerData = loadGobblerData(_id);
-      gobblers = removeElementFromArray(_gobblerData.id, gobblers);
-      sumEmissionMultiple = sumEmissionMultiple.minus(_gobblerData.emissionMultiple);
-    }
-    voltronUserData.gobblers = gobblers;
-    voltronUserData.emissionMultiple = voltronUserData.emissionMultiple.minus(sumEmissionMultiple);
+    voltronUserData.claimedNum = voltronUserData.claimedNum.plus(len);
     voltronUserData.save();
 
     let voltronGobblersData = loadVoltronGobblersData();
-    voltronGobblersData.totalGobblersOwned = voltronGobblersData.totalGobblersOwned.minus(len);
-    voltronGobblersData.totalEmissionMultiple = voltronGobblersData.totalEmissionMultiple.minus(sumEmissionMultiple);
+    
     let globalGobblers = voltronGobblersData.claimableGobblers;
     for (let i = 0; i < gobblerIds.length; i++) {
       const _id = gobblerIds[i];
       let _gobblerData = loadGobblerData(_id);
       globalGobblers = removeElementFromArray(_gobblerData.id, globalGobblers);
-      sumEmissionMultiple = sumEmissionMultiple.minus(_gobblerData.emissionMultiple);
+      sumEmissionMultiple = sumEmissionMultiple.plus(_gobblerData.emissionMultiple);
     }
+    voltronGobblersData.totalGobblersOwned = voltronGobblersData.totalGobblersOwned.minus(len);
+    voltronGobblersData.totalEmissionMultiple = voltronGobblersData.totalEmissionMultiple.minus(sumEmissionMultiple);
     voltronGobblersData.claimableGobblers = globalGobblers;
     voltronGobblersData.save();
   }
