@@ -249,6 +249,7 @@ export function loadVoltronGobblersData(): VoltronGobblersData {
     entity.totalEmissionMultiple = BigInt.fromI32(0);
     entity.totalVirtualBalanceDecimal = BigDecimal.fromString("0");
     entity.lastTimestamp = BigInt.fromI32(0);
+    entity.totalMintedNum = BigInt.fromString("0");
     entity.claimableGobblers = [];
   }
   return entity;

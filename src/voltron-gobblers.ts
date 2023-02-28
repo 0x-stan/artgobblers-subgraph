@@ -57,11 +57,13 @@ export function handleGobblerDeposited(event: GobblerDeposited): void {
 export function handleGobblerMinted(event: GobblerMinted): void {
   const num = event.params.num;
   const gobblerIds = event.params.gobblerIds;
+  const len = gobblerIds.length;
 
   let voltronGobblersData = loadVoltronGobblersData();
   voltronGobblersData.totalGobblersOwned = voltronGobblersData.totalGobblersOwned.plus(num);
+  voltronGobblersData.totalMintedNum = voltronGobblersData.totalMintedNum.plus(BigInt.fromI32(len));
   let claimableGobblers = voltronGobblersData.claimableGobblers;
-  for (let i = 0; i < gobblerIds.length; i++) {
+  for (let i = 0; i < len; i++) {
     const _id = gobblerIds[i];
     claimableGobblers.push(_id.toString());
   }

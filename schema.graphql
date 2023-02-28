@@ -102,6 +102,7 @@ type VoltronGobblersData @entity {
   totalEmissionMultiple: BigInt! # The sum of the multiples of all gobblers the user holds.
   totalVirtualBalanceDecimal: BigDecimal! # User's goo balance at time of last checkpointing.
   lastTimestamp: BigInt! # Timestamp of the last goo balance checkpoint.
+  totalMintedNum: BigInt! # Total minted gobblers num.
   claimableGobblers: [GobblerData!]! # voltron gobblers in the pool can be claim
 }
 
